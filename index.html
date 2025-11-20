@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UESPI NOTÍCIAS</title>
+<style>
+body { margin:0; font-family: Arial, sans-serif; background:#f0f4ff; }
+header { background:#003366; color:white; padding:20px 10px; display:flex; align-items:center; justify-content:center; gap:15px; border-bottom-left-radius:20px; border-bottom-right-radius:20px; box-shadow:0 4px 15px rgba(0,0,0,0.3);}
+header h1 { margin:0; font-size:28px; font-weight:bold; }
+nav { background:#0055aa; display:flex; justify-content:center; gap:15px; flex-wrap:wrap; padding:12px; border-radius:15px; margin:10px;}
+nav a { color:#fff; text-decoration:none; font-size:16px; padding:6px 12px; border-radius:8px; transition:0.3s; }
+nav a:hover { background:#cce0ff; color:#005bb5; }
+section { padding:40px 20px; max-width:1200px; margin:auto; }
+h2 { color:#003366; margin-bottom:20px; }
+p { color:#333; line-height:1.6; }
+.cards-container { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; }
+.card { background:white; border-radius:20px; box-shadow:0 6px 15px rgba(0,0,0,0.2); overflow:hidden; cursor:pointer; transition:0.3s; display:flex; flex-direction:column; align-items:center; }
+.card:hover { transform:scale(1.03); }
+.card img, .card video { width:100%; max-height:300px; object-fit:contain; border-bottom:4px solid #003366; margin-bottom:10px; border-radius:12px; }
+.card h3 { padding:0 12px; margin:0; color:#003366; text-align:center; }
+.card p { padding:0 12px 12px 12px; color:#333; font-size:14px; text-align:center; }
+footer { background:#003366; color:white; text-align:center; padding:20px; margin-top:40px; border-top-left-radius:20px; border-top-right-radius:20px; box-shadow:0 -4px 15px rgba(0,0,0,0.2); display:flex; align-items:center; justify-content:center; gap:10px; }
+input, textarea, select { width:100%; padding:10px; margin:5px 0 15px 0; border-radius:8px; border:1px solid #ccc; font-size:14px;}
+button { background:#0055aa; color:white; border:none; padding:10px 16px; border-radius:12px; cursor:pointer; transition:0.3s; }
+button:hover { background:#003366; }
+.admin-section { background:#e6f0ff; padding:20px; border-radius:20px; box-shadow:0 4px 12px rgba(0,0,0,0.1);}
+.login-section { background:#e6f0ff; padding:30px; border-radius:20px; max-width:400px; margin:50px auto; text-align:center; box-shadow:0 4px 12px rgba(0,0,0,0.2);}
+.login-section input { width:80%; margin-bottom:15px;}
+</style>
+</head>
+<body>
+
+<header>
+    <h1>UESPI NOTÍCIAS 📚<h1>
+</header>
+
+<nav>
+    <a href="#" onclick="showSection('home')">Início</a>
+    <a href="#" onclick="showSection('noticias')">Notícias</a>
+    <a href="#" onclick="showSection('eventos')">Eventos</a>
+    <a href="#" onclick="showSection('pesquisas')">Pesquisas</a>
+    <a href="#" onclick="showSection('bolsas')">Bolsas de Estudo</a>
+    <a href="#" onclick="showSection('sobre')">Sobre</a>
+    <a href="#" onclick="showSection('contato')">Contato</a>
+    <a href="#" onclick="showAdminLogin()">Área ADM</a>
+</nav>
+
+<section id="home">
+    <div style="background:url('https://i.imgur.com/2nCt3Sb.jpg') center/cover; height:300px; display:flex; align-items:center; justify-content:center; border-radius:20px; box-shadow:0 6px 20px rgba(0,0,0,0.25); margin-bottom:40px;">
+        <h2 style="color:white; background:rgba(0,0,0,0.5); padding:20px; border-radius:12px;">Bem-vindo ao UESPI NOTÍCIAS</h2>
+    </div>
+</section>
+
+<section id="noticias" style="display:none;">
+    <h2>Últimas Notícias</h2>
+    <div class="cards-container" id="cardsNoticias"></div>
+</section>
+
+<section id="eventos" style="display:none;">
+    <h2>Eventos</h2>
+    <div class="cards-container" id="cardsEventos"></div>
+</section>
+
+<section id="pesquisas" style="display:none;">
+    <h2>Pesquisas</h2>
+    <div class="cards-container" id="cardsPesquisas"></div>
+</section>
+
+<section id="bolsas" style="display:none;">
+    <h2>Bolsas de Estudo</h2>
+    <div class="cards-container" id="cardsBolsas"></div>
+</section>
+
+<section id="sobre" style="display:none;">
+    <h2>Sobre o UESPI NOTÍCIAS</h2>
+    <p>Portal oficial de notícias da Universidade Estadual do Piauí, trazendo informações sobre cursos, eventos e pesquisas.</p>
+</section>
+
+<section id="contato" style="display:none;">
+    <h2>Contato</h2>
+    <p>Telefone: (86) 99454-6994</p>
+    <p>Endereço: UESPI CAMPO MAIOR</p>
+</section>
+
+<!-- Tela de login do ADM -->
+<section id="loginADM" style="display:none;">
+    <div class="login-section">
+        <h2>Login ADM</h2>
+        <input type="text" id="userADM" placeholder="Usuário"><br>
+        <input type="password" id="senhaADM" placeholder="Senha"><br>
+        <button onclick="validarADM()">Entrar</button>
+    </div>
+</section>
+
+<section id="admin" style="display:none;">
+    <h2>Área do Administrador</h2>
+    <div class="admin-section">
+        <p>Envie uma nova notícia:</p>
+        <input type="text" id="tituloNoticia" placeholder="Título da notícia">
+        <textarea id="textoNoticia" rows="6" placeholder="Texto da notícia"></textarea>
+        <label for="arquivoNoticia">Selecione foto ou vídeo:</label>
+        <input type="file" id="arquivoNoticia" accept="image/*,video/*">
+        <label for="categoriaNoticia">Selecione a seção:</label>
+        <select id="categoriaNoticia">
+            <option value="home">Início</option>
+            <option value="noticias">Notícias Gerais</option>
+            <option value="eventos">Eventos</option>
+            <option value="pesquisas">Pesquisas</option>
+            <option value="bolsas">Bolsas de Estudo</option>
+        </select>
+        <button onclick="adicionarNoticia()">Enviar Notícia</button>
+    </div>
+</section>
+
+<footer>
+    <span>© 2025 UESPI NOTÍCIAS — Todos os direitos reservados.</span>
+</footer>
+
+<script>
+let noticias = { home: [], noticias: [], eventos: [], pesquisas: [], bolsas: [] };
+
+function showSection(id){
+    const sections = ['home','noticias','eventos','pesquisas','bolsas','sobre','contato','admin','loginADM'];
+    sections.forEach(sec => document.getElementById(sec).style.display='none');
+    document.getElementById(id).style.display='block';
+    if(noticias[id]) carregarNoticiasPorCategoria(id);
+}
+
+function showAdminLogin(){
+    const sections = ['home','noticias','eventos','pesquisas','bolsas','sobre','contato','admin','loginADM'];
+    sections.forEach(sec => document.getElementById(sec).style.display='none');
+    document.getElementById('loginADM').style.display='block';
+}
+
+function validarADM(){
+    const usuario = document.getElementById('userADM').value;
+    const senha = document.getElementById('senhaADM').value;
+    // Alterar para seu usuário e senha desejados
+    if(usuario === "admin" && senha === "1234"){
+        alert("Login realizado com sucesso!");
+        document.getElementById('userADM').value='';
+        document.getElementById('senhaADM').value='';
+        showSection('admin');
+    } else {
+        alert("Usuário ou senha incorretos!");
+    }
+}
+
+function carregarNoticiasPorCategoria(cat){
+    const containerId = 'cards' + cat.charAt(0).toUpperCase() + cat.slice(1);
+    const container = document.getElementById(containerId);
+    if(!container) return;
+    container.innerHTML='';
+    noticias[cat].forEach(n=>{
+        const div = document.createElement('div');
+        div.className='card';
+        if(n.mimetype.startsWith('video')){
+            div.innerHTML=`<video controls style="width:100%; height:auto;"> <source src="${n.arquivo}" type="${n.mimetype}">Seu navegador não suporta vídeo.</video><h3>${n.titulo}</h3><p>${n.texto}</p>`;
+        } else {
+            div.innerHTML=`<img src="${n.arquivo}"><h3>${n.titulo}</h3><p>${n.texto}</p>`;
+        }
+        container.appendChild(div);
+    });
+}
+
+function adicionarNoticia(){
+    const titulo = document.getElementById('tituloNoticia').value;
+    const texto = document.getElementById('textoNoticia').value;
+    const categoria = document.getElementById('categoriaNoticia').value;
+    const arquivo = document.getElementById('arquivoNoticia').files[0];
+
+    if(titulo && texto && arquivo && categoria){
+        const leitor = new FileReader();
+        leitor.onload = function(e){
+            noticias[categoria].push({
+                titulo,
+                texto,
+                arquivo: e.target.result,
+                mimetype: arquivo.type
+            });
+            document.getElementById('tituloNoticia').value='';
+            document.getElementById('textoNoticia').value='';
+            document.getElementById('arquivoNoticia').value='';
+            alert("Notícia adicionada com sucesso!");
+            showSection(categoria);
+        }
+        leitor.readAsDataURL(arquivo);
+    } else {
+        alert("Preencha todos os campos e selecione um arquivo antes de enviar!");
+    }
+}
+</script>
+
+</body>
+</html>
